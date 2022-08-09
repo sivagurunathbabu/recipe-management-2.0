@@ -1,4 +1,4 @@
-package com.org.recipe;
+package com.org.recipe.dao;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.DisplayName;
-import org.testng.annotations.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.context.WebApplicationContext;
+import org.testng.annotations.Test;
 
 import com.mongodb.client.result.DeleteResult;
+import com.org.recipe.Application;
 import com.org.recipe.controller.AbstractTest;
-import com.org.recipe.dao.RecipeDAO;
 import com.org.recipe.entity.Category;
 import com.org.recipe.entity.Recipe;
 

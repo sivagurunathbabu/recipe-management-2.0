@@ -14,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.context.WebApplicationContext;
 import org.testng.annotations.Test;
 
@@ -26,7 +25,6 @@ import com.org.recipe.exception.RecordAlreadyExistsException;
 import com.org.recipe.exception.RecordNotFoundException;
 
 @SpringBootTest(classes = Application.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 public class RecipeBoServiceTest extends AbstractTest{
 
 	private static final String EGG = "EGG";

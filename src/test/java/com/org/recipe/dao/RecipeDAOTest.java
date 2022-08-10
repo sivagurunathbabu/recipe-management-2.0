@@ -14,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.context.WebApplicationContext;
 import org.testng.annotations.Test;
 
@@ -25,7 +24,6 @@ import com.org.recipe.entity.Category;
 import com.org.recipe.entity.Recipe;
 
 @SpringBootTest(classes = Application.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 public class RecipeDAOTest extends AbstractTest {
 
 	private static final String TURNIPE = "Turnipe";

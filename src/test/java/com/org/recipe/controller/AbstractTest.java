@@ -7,7 +7,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import com.org.recipe.Application;
 
 @SpringBootTest(classes = Application.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(properties = "spring.mongodb.embedded.version=3.2.10")
 public class AbstractTest extends AbstractTestNGSpringContextTests {
 
 }

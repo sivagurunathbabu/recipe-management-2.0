@@ -56,7 +56,7 @@ public class RecipeBoServiceTest extends AbstractTest{
 	
 	@Test
 	@DisplayName("create")
-	void testCreate() {
+	public void testCreate() {
 		Set<String> ingredients = new HashSet<>();
 		ingredients.add(PEPPER);
 		ingredients.add(POTATO);
@@ -87,7 +87,7 @@ public class RecipeBoServiceTest extends AbstractTest{
 
 	@Test
 	@DisplayName("update")
-	void testUpdate() {
+	public void testUpdate() {
 		int NO_OF_SERVINGS = 2;
 		Set<String> ingredients = new HashSet<>();
 		ingredients.add(DRUMSTICK);
@@ -123,7 +123,7 @@ public class RecipeBoServiceTest extends AbstractTest{
 
 	@Test
 	@DisplayName("Delete")
-	void testDelete() {
+	public void testDelete() {
 
 		Set<String> ingredients = new HashSet<>();
 		ingredients.add(EGG);
@@ -151,7 +151,7 @@ public class RecipeBoServiceTest extends AbstractTest{
 
 	@Test
 	@DisplayName("allRecipes")
-	void testAllrecipes() {
+	public void testAllrecipes() {
 		String instruction = "Marinate Salmon fish with olive oil , garlic and ginger. After 30 min of marination cook in oven";
 		int NO_OF_SERVINGS = 2;
 		Set<String> ingredients = new HashSet<>();
@@ -189,7 +189,7 @@ public class RecipeBoServiceTest extends AbstractTest{
 
 	@Test
 	@DisplayName("filterRecipes")
-	void testFilterRecipes() {
+	public void testFilterRecipes() {
 		String instruction = "Marinate Salmon fish with olive oil , garlic and ginger. After 30 min of marination cook in oven for 10 min";
 		
 		final int NO_OF_SERVINGS_4 = 4;

@@ -30,10 +30,10 @@ public class RecipeBoServiceTest extends AbstractTest{
 	private static final String EGG = "EGG";
 	private static final String BREADCRUMB = "Breadcrumb";
 	private static final String MEAT_SCHNITZEL = "Meat Schnitzel";
-	private static final String MEAT_POTATO_WEDGE = "Meat Potato Wedge";
+	private static final String VEG_POTATO_WEDGE = "Veg Potato Wedge";
 	private static final String OVEN = "oven";
 	private static final String POTATO = "Potato";
-	private static final String RECIPE_NOT_CREATED_ALREADY_RECEIPE_EXISTS_FOR_MEAT_POTATO_WEDGE = "Recipe not created already receipe exists for Meat Potato Wedge";
+	private static final String RECIPE_NOT_CREATED_ALREADY_RECEIPE_EXISTS_FOR_VEG_POTATO_WEDGE = "Recipe not created already receipe exists for Veg Potato Wedge";
 	private static final String SALMON_65 = "Salmon 65";
 	private static final String SALMON = "Salmon";
 	private static final String CHILLY = "Chilly";
@@ -41,8 +41,8 @@ public class RecipeBoServiceTest extends AbstractTest{
 	private static final String TOMATO = "Tomato";
 	private static final String MEAT = "Meat";
 	private static final String PEPPER = "Pepper";
-	private static final String SALMON_GRAVY = "Salmon Gravy";
-	private static final String SAMBAR = "Sambar";
+	private static final String SALMON_MINSED_PEPPER_GRAVY = "Salmon Pepper Gravy";
+	private static final String DRUMSTICK_SAMBAR = "Drumstick Sambar";
 
 
 	@Mock
@@ -58,29 +58,28 @@ public class RecipeBoServiceTest extends AbstractTest{
 		Set<String> ingredients = new HashSet<>();
 		ingredients.add(PEPPER);
 		ingredients.add(POTATO);
-		ingredients.add(MEAT);
-		String instruction = "Marinate meat with Indian spices and fry with oil";
+		String instruction = "Marinate vegitables with Indian spices and fry with oil";
 
-		Category category = Category.NON_VEG;
+		Category category = Category.VEG;
 		int NO_OF_SERVINGS = 2;
-		var restaurant = new Recipe(MEAT_POTATO_WEDGE, NO_OF_SERVINGS, ingredients, instruction);
-		restaurant.setCategory(category);
-		Recipe savedEntity = recipeBoService.create(restaurant);
+		var vegPotatoWedge = new Recipe(VEG_POTATO_WEDGE, NO_OF_SERVINGS, ingredients, instruction);
+		vegPotatoWedge.setCategory(category);
+		Recipe savedEntity = recipeBoService.create(vegPotatoWedge);
 
-		assertAll("Receice is created", () -> assertEquals(MEAT_POTATO_WEDGE, savedEntity.getName()),
+		assertAll("Receice is created", () -> assertEquals(VEG_POTATO_WEDGE, savedEntity.getName()),
 				() -> assertEquals(instruction, savedEntity.getInstructions()),
 				() -> assertEquals(NO_OF_SERVINGS, savedEntity.getNoOfServings()),
 				() -> assertEquals(ingredients, savedEntity.getIngredients()),
 				() -> assertEquals(category, savedEntity.getCategory()));
 
 		RecordAlreadyExistsException recordAlreadyExists = assertThrows(RecordAlreadyExistsException.class, () -> {
-			recipeBoService.create(restaurant);
+			recipeBoService.create(vegPotatoWedge);
 		});
 
-		assertEquals(RECIPE_NOT_CREATED_ALREADY_RECEIPE_EXISTS_FOR_MEAT_POTATO_WEDGE,
+		assertEquals(RECIPE_NOT_CREATED_ALREADY_RECEIPE_EXISTS_FOR_VEG_POTATO_WEDGE,
 				recordAlreadyExists.getMessage());
 
-		recipeBoService.delete(MEAT_POTATO_WEDGE);
+		recipeBoService.delete(VEG_POTATO_WEDGE);
 	}
 
 	@Test
@@ -95,27 +94,27 @@ public class RecipeBoServiceTest extends AbstractTest{
 
 		String modifiedInstruction = "Boil dal with drumstick , tomato , chilly and Indian spices and serve hot";
 
-		var sambarRecipe = new Recipe(SAMBAR, NO_OF_SERVINGS, ingredients, modifiedInstruction);
+		var sambarRecipe = new Recipe(DRUMSTICK_SAMBAR, NO_OF_SERVINGS, ingredients, modifiedInstruction);
 		sambarRecipe.setCategory(category);
 		recipeBoService.create(sambarRecipe);
 		
-		var modifiedSambar = new Recipe(SAMBAR, NO_OF_SERVINGS, ingredients, modifiedInstruction);
+		var modifiedSambar = new Recipe(DRUMSTICK_SAMBAR, NO_OF_SERVINGS, ingredients, modifiedInstruction);
 		modifiedSambar.setCategory(category);
-		Recipe savedEntity = recipeBoService.update(SAMBAR, modifiedSambar);
+		Recipe savedEntity = recipeBoService.update(DRUMSTICK_SAMBAR, modifiedSambar);
 
-		assertAll("Receice is update", () -> assertEquals(SAMBAR, savedEntity.getName()),
+		assertAll("Receice is update", () -> assertEquals(DRUMSTICK_SAMBAR, savedEntity.getName()),
 				() -> assertEquals(modifiedInstruction, savedEntity.getInstructions()),
 				() -> assertEquals(NO_OF_SERVINGS, savedEntity.getNoOfServings()),
 				() -> assertEquals(ingredients, savedEntity.getIngredients()),
 				() -> assertEquals(category, savedEntity.getCategory()));
 
-		recipeBoService.delete(SAMBAR);
+		recipeBoService.delete(DRUMSTICK_SAMBAR);
 
 		RecordNotFoundException recordNotFoundException = assertThrows(RecordNotFoundException.class, () -> {
-			recipeBoService.update(SAMBAR, modifiedSambar);
+			recipeBoService.update(DRUMSTICK_SAMBAR, modifiedSambar);
 		});
 
-		assertEquals("Recipe not updated since no receipe found for Sambar", recordNotFoundException.getMessage());
+		assertEquals("Recipe not updated since no receipe found for Drumstick Sambar", recordNotFoundException.getMessage());
 
 	}
 
@@ -167,9 +166,9 @@ public class RecipeBoServiceTest extends AbstractTest{
 		muttonIngredients.add(MEAT);
 		String muttonInstruction = "Marinate meat with Indian spices and bake with oven";
 
-		String MEAT_PEPPER_MASALA = "Meat Pepper Masala";
+		String MEAT_PEPPER_GRAVY = "Meat Pepper Gravy";
 		int NO_OF_SERVINGS_MUTTON = 4;
-		Recipe muttonRecipe = new Recipe(MEAT_PEPPER_MASALA, NO_OF_SERVINGS_MUTTON, muttonIngredients, muttonInstruction);
+		Recipe muttonRecipe = new Recipe(MEAT_PEPPER_GRAVY, NO_OF_SERVINGS_MUTTON, muttonIngredients, muttonInstruction);
 		muttonRecipe.setCategory(Category.NON_VEG);
 		
 		recipeBoService.create(muttonRecipe);
@@ -188,16 +187,17 @@ public class RecipeBoServiceTest extends AbstractTest{
 	@Test
 	@DisplayName("filterRecipes")
 	public void testFilterRecipes() {
-		String instruction = "Marinate Salmon fish with olive oil , garlic and ginger. After 30 min of marination cook in oven for 10 min";
+		String instruction = "Saute Minsed Salmon fish with olive oil , garlic and ginger. After 30 min cook in oven for 10 min";
 		
 		final int NO_OF_SERVINGS_4 = 4;
 		Set<String> ingredients = new HashSet<>();
 		ingredients.add(SALMON);
 		ingredients.add(TOMATO);
 		ingredients.add(CHILLY);
+		ingredients.add(PEPPER);
 		Category category = Category.NON_VEG;
 
-		var salmonRecipe = new Recipe(SALMON_GRAVY, NO_OF_SERVINGS_4, ingredients, instruction);
+		var salmonRecipe = new Recipe(SALMON_MINSED_PEPPER_GRAVY, NO_OF_SERVINGS_4, ingredients, instruction);
 		salmonRecipe.setCategory(category);
 		
 		recipeBoService.create(salmonRecipe);
@@ -252,7 +252,7 @@ public class RecipeBoServiceTest extends AbstractTest{
 					);
 		});
 		
-		recipeBoService.delete(SALMON_GRAVY);
+		recipeBoService.delete(SALMON_MINSED_PEPPER_GRAVY);
 		recipeBoService.delete(SAMBAR);
 
 		
